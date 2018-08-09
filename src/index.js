@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import router from './router';
-import './index.css';
+import './index.less';
 
 const CONTAINER = document.getElementById('container');
 

@@ -3,40 +3,27 @@
 
 const asideMenuConfig = [
   {
-    name: '概况',
+    name: '首页',
     path: '/',
-    icon: 'home2',
+    icon: 'home'
   },
   {
-    name: '商品',
-    path: '/goods',
-    icon: 'shopcar',
-  },
-  {
-    name: '订单',
-    path: '/order',
-    icon: 'copy',
-  },
-  {
-    name: '客户',
-    path: '/customer',
-    icon: 'redpacket',
-  },
-  {
-    name: '数据',
-    path: '/statcenter',
-    icon: 'chart',
-  },
-  {
-    name: '资产',
-    path: '/asset',
-    icon: 'redpacket',
+    name: '列表',
+    path: '/form',
+    icon: 'form'
   },
   {
     name: '设置',
     path: '/setting',
-    icon: 'shezhi',
-  },
+    icon: 'tool',
+    children: [
+      {
+        name: '用户管理',
+        path: '/user',
+        // newWindow: true
+      }
+    ]
+  }
 ];
 
 export default asideMenuConfig;

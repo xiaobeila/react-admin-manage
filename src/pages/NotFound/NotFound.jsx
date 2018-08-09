@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import BasicNotFound from '../../common/BasicNotFound';
+import BasicNotFound from '../../components/BasicNotFound';
 import './NotFound.less';
 
 export default class NotFound extends Component {

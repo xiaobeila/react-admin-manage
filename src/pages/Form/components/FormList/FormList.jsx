@@ -1,83 +1,62 @@
-
 import React, { Component } from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Table, Divider, Button } from 'antd';
 
-const FormItem = Form.Item;
-
-const formItemLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 8 },
-};
-const formTailLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 8, offset: 4 },
-};
-
-class FormLists extends Component {
+export default class FormList extends Component {
   static displayName = 'FormList';
-  state = {
-    checkNick: false,
-  };
-  check = () => {
-    this.props.form.validateFields(
-      (err) => {
-        if (!err) {
-          console.info('success');
-        }
-      },
-    );
-  }
 
-  handleChange = (e) => {
-    this.setState({
-      checkNick: e.target.checked,
-    }, () => {
-      this.props.form.validateFields(['nickname'], { force: true });
-    });
+  constructor(props) {
+    super(props);
+    this.state = {};
   }
 
   render () {
-    const { getFieldDecorator } = this.props.form;
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+      }, {
+        title: 'Age',
+        dataIndex: 'age',
+        key: 'age',
+      }, {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+      }, {
+        title: 'Action',
+        key: 'action',
+        render: (text, record) => (
+          <span>
+            <Button>编辑</Button>
+            <Divider type="vertical" />
+            <Button>删除</Button>
+          </span>
+        )
+      }
+    ];
+
+    const data = [{
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+    }, {
+      key: '2',
+      name: 'Jim Green',
+      age: 42,
+      address: 'London No. 1 Lake Park',
+    }, {
+      key: '3',
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park',
+    }];
+
     return (
       <div className="form-list">
-        <FormItem {...formItemLayout} label="Name">
-          {getFieldDecorator('username', {
-            rules: [{
-              required: true,
-              message: 'Please input your name',
-            }],
-          })(
-            <Input placeholder="Please input your name" />
-          )}
-        </FormItem>
-        <FormItem {...formItemLayout} label="Nickname">
-          {getFieldDecorator('nickname', {
-            rules: [{
-              required: this.state.checkNick,
-              message: 'Please input your nickname',
-            }],
-          })(
-            <Input placeholder="Please input your nickname" />
-          )}
-        </FormItem>
-        <FormItem {...formTailLayout}>
-          <Checkbox
-            value={this.state.checkNick}
-            onChange={this.handleChange}
-          >
-            Nickname is required
-          </Checkbox>
-        </FormItem>
-        <FormItem {...formTailLayout}>
-          <Button type="primary" onClick={this.check}>
-            Check
-          </Button>
-        </FormItem>
+        <Table columns={columns} dataSource={data} />
       </div>
     );
   }
 }
-
-const FormList = Form.create()(FormLists);
-
-export default FormList;

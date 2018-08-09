@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Redirect, Switch } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Layout } from 'antd';
 
-import SiderCustom from '../../common/SiderCustom';
-import HeaderCustom from '../../common/HeaderCustom';
+import SiderCustom from '../../components/SiderCustom';
+import HeaderCustom from '../../components/HeaderCustom';
 import './Layout.less';
 
 const { Content, Footer } = Layout;
@@ -47,10 +47,8 @@ export default class Home extends Component {
         <SiderCustom collapsed={collapsed} path={location.pathname} />
         <Layout>
           <HeaderCustom collapsed={collapsed} toggle={this.toggle} username={name} />
-          <Content style={{ margin: '0 16px' }}>
-            <Switch>
-              {this.props.children}
-            </Switch>
+          <Content>
+            {this.props.children}
           </Content>
           <Footer style={{ textAlign: 'center' }}>MSPA ©2017-2018 Created by xiaobeila</Footer>
         </Layout>

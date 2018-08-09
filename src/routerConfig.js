@@ -5,6 +5,7 @@
 import AsideLayout from './layouts/AsideLayout';
 import Home from './pages/Home';
 import Form from './pages/Form';
+import User from './pages/User';
 import NotFound from './pages/NotFound';
 
 const routerConfig = [
@@ -17,6 +18,11 @@ const routerConfig = [
     path: '/form',
     layout: AsideLayout,
     component: Form,
+  },
+  {
+    path: '/user',
+    layout: AsideLayout,
+    component: User,
   },
   {
     path: '*',

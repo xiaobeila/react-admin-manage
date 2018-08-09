@@ -29,7 +29,7 @@ export default class HeaderCustom extends Component {
     }
     render () {
         return (
-            <Header style={{ background: '#fff', padding: 0 }} className="header">
+            <Header style={{ background: '#ffffff', padding: 0 }} className="header">
                 <Icon
                     className="trigger"
                     type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
