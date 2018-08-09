@@ -48,6 +48,13 @@ export default class Axios {
         } else {
           reject(response.data);
         }
+      }).catch((error) => {
+        loading.style.display = 'none';
+        Modal.info({
+          title: "提示",
+          content: error
+        })
+        console.log(error)
       })
     });
   }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Button, Table, Divider } from 'antd'
 import axios from '../../axios'
+import Utils from '../../utils/utils'
 import './User.less';
 
 export default class User extends Component {
@@ -30,10 +31,15 @@ export default class User extends Component {
         }
       }
     }).then((res) => {
+      let _this = this;
       this.setState({
         list: res.result.list.map((item, index) => {
           item.key = index
           return item;
+        }),
+        pagination: Utils.pagination(res, (current) => {
+          _this.state.params.page = current;
+          _this.requestList();
         })
       })
     }).catch((error) => {
