@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Card, Button, Table, Divider } from 'antd'
+import { Card, Button, Table, Divider, Modal } from 'antd'
+
 import axios from '../../axios'
 import Utils from '../../utils/utils'
+import UserForm from './components/UserForm';
 import './User.less';
 
 export default class User extends Component {
   static displayName = 'User';
-
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +24,7 @@ export default class User extends Component {
 
   requestList = () => {
     axios.ajax({
-      url: '/table/list1',
+      url: '/users/userList',
       method: 'get',
       data: {
         params: {
@@ -33,7 +34,7 @@ export default class User extends Component {
     }).then((res) => {
       let _this = this;
       this.setState({
-        list: res.result.list.map((item, index) => {
+        list: res.result.items.map((item, index) => {
           item.key = index
           return item;
         }),
@@ -47,8 +48,25 @@ export default class User extends Component {
     })
   }
 
-  handleOperator (type) {
-    console.log(type)
+  handleOperator = (type) => {
+    if (type === 'create') {
+      this.setState({
+        title: '创建员工',
+        isVisible: true,
+        type
+      })
+    }
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.userForm.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+    // let type = this.state.type;
+    // let data = this.userForm.props.form.getFieldsValue();
   }
 
   render () {
@@ -65,14 +83,16 @@ export default class User extends Component {
         title: '性别',
         dataIndex: 'sex',
         render (sex) {
-          return sex === 1 ? '男' : '女'
+          if (sex)
+            return sex === 1 ? '男' : '女'
         }
       },
       {
         title: '婚姻',
         dataIndex: 'isMarried',
         render (isMarried) {
-          return isMarried === 1 ? '未婚' : '已婚'
+          if (isMarried)
+            return isMarried === 1 ? '未婚' : '已婚'
         }
       },
       {
@@ -149,6 +169,21 @@ export default class User extends Component {
             />
           </Card>
         </div>
+        <Modal
+          title={this.state.title}
+          visible={this.state.isVisible}
+          onOk={this.handleSubmit}
+          width={800}
+          onCancel={() => {
+            this.userForm.props.form.resetFields();
+            this.setState({
+              isVisible: false,
+              userInfo: ''
+            })
+          }}
+        >
+          <UserForm userInfo={this.state.userInfo} type={this.state.type} wrappedComponentRef={(inst) => this.userForm = inst} />
+        </Modal>
       </div >
     );
   }
