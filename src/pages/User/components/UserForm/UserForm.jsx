@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Form, Input, DatePicker, Select, Radio } from 'antd'
-import Moment from 'moment'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -36,10 +35,10 @@ class UserForms extends Component {
         <FormItem label="用户名" {...formItemLayout}>
           {
             userInfo && type === 'detail' ? userInfo.username :
-              getFieldDecorator('user_name', {
+              getFieldDecorator('username', {
                 rules: [{
                   required: true,
-                  message: 'Please input your name',
+                  message: 'Please input your username',
                 }],
                 initialValue: userInfo.username
               })(
@@ -51,6 +50,10 @@ class UserForms extends Component {
           {
             userInfo && type === 'detail' ? userInfo.sex === 1 ? '男' : '女' :
               getFieldDecorator('sex', {
+                rules: [{
+                  required: true,
+                  message: 'Please select your sex',
+                }],
                 initialValue: userInfo.sex
               })(
                 <RadioGroup>
@@ -63,6 +66,10 @@ class UserForms extends Component {
           {
             userInfo && type === 'detail' ? this.getState(userInfo.state) :
               getFieldDecorator('state', {
+                rules: [{
+                  required: true,
+                  message: 'Please select your state',
+                }],
                 initialValue: userInfo.state
               })(
                 <Select>
@@ -74,19 +81,41 @@ class UserForms extends Component {
                 </Select>
               )}
         </FormItem>
-        <FormItem label="生日" {...formItemLayout}>
+        {/* <FormItem label="生日" {...formItemLayout}>
           {
             userInfo && type === 'detail' ? userInfo.birthday :
               getFieldDecorator('birthday', {
+                rules: [{
+                  required: true,
+                  message: 'Please select your birthday',
+                }],
                 initialValue: Moment(userInfo.birthday)
               })(
                 <DatePicker />
               )}
+        </FormItem> */}
+        <FormItem label="联系电话" {...formItemLayout}>
+          {
+            userInfo && type === 'detail' ? userInfo.phone :
+              getFieldDecorator('phone', {
+                rules: [{
+                  required: true,
+                  message: 'Please input your phone',
+                }],
+                initialValue: userInfo.phone
+              })(
+                <Input type="text" placeholder="请输入联系电话" />
+              )
+          }
         </FormItem>
         <FormItem label="联系地址" {...formItemLayout}>
           {
             userInfo && type === 'detail' ? userInfo.address :
               getFieldDecorator('address', {
+                rules: [{
+                  required: true,
+                  message: 'Please input your address',
+                }],
                 initialValue: userInfo.address
               })(
                 <Input.TextArea rows={3} placeholder="请输入联系地址" />

@@ -10,7 +10,7 @@ router.get('/', function (req, res, next) {
 /**
  * 获取用户列表
  */
-router.get('/userList', function (req, res, next) {
+router.get('/index', function (req, res, next) {
   User.find({}, function (err, doc) {
     if (err) {
       res.json({
@@ -25,12 +25,34 @@ router.get('/userList', function (req, res, next) {
           msg: '',
           result: {
             items: doc,
-            count: doc.length
+            page: 1,
+            page_size: 10,
+            total_count: doc.length
           }
         });
       }
     }
   })
 });
+
+/**
+ * 用户编辑
+ */
+router.post('/store', function (req, res, next) {
+  User.create(req.body, function (err, doc) {
+    if (err) {
+      res.json({
+        status: '400',
+        msg: err.message
+      });
+    } else {
+      res.json({
+        status: '200',
+        msg: '',
+        result: 'success'
+      });
+    }
+  });
+})
 
 module.exports = router;

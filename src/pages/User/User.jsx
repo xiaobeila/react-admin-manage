@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Button, Table, Divider, Modal } from 'antd'
 
-import axios from '../../axios'
+import { index, store } from '../../axios/user'
 import Utils from '../../utils/utils'
 import UserForm from './components/UserForm';
 import './User.less';
@@ -23,15 +23,7 @@ export default class User extends Component {
   }
 
   requestList = () => {
-    axios.ajax({
-      url: '/users/userList',
-      method: 'get',
-      data: {
-        params: {
-          page: this.state.params.page
-        }
-      }
-    }).then((res) => {
+    index().then((res) => {
       let _this = this;
       this.setState({
         list: res.result.items.map((item, index) => {
@@ -62,18 +54,33 @@ export default class User extends Component {
     e.preventDefault();
     this.userForm.props.form.validateFields((err, values) => {
       if (!err) {
+        let params = {
+          type: this.state.type,
+          data: {
+            ...this.userForm.props.form.getFieldsValue()
+          }
+        }
+
+        store(params).then((res) => {
+          if (res.status === '200') {
+            this.setState({
+              isVisible: false
+            })
+            this.requestList();
+          }
+        }).catch((error) => {
+          console.log(error)
+        });
         console.log('Received values of form: ', values);
       }
     });
-    // let type = this.state.type;
-    // let data = this.userForm.props.form.getFieldsValue();
   }
 
   render () {
     const columns = [
       {
         title: 'id',
-        dataIndex: 'id'
+        dataIndex: '_id'
       },
       {
         title: '用户名',
@@ -85,14 +92,6 @@ export default class User extends Component {
         render (sex) {
           if (sex)
             return sex === 1 ? '男' : '女'
-        }
-      },
-      {
-        title: '婚姻',
-        dataIndex: 'isMarried',
-        render (isMarried) {
-          if (isMarried)
-            return isMarried === 1 ? '未婚' : '已婚'
         }
       },
       {
@@ -126,10 +125,10 @@ export default class User extends Component {
           return config[interest];
         }
       },
-      {
-        title: '生日',
-        dataIndex: 'birthday'
-      },
+      // {
+      //   title: '生日',
+      //   dataIndex: 'birthday'
+      // },
       {
         title: '联系地址',
         dataIndex: 'address'

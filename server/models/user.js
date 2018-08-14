@@ -6,11 +6,11 @@ var userSchema = new mongoose.Schema({
     "password": String,
     "phone": Number,
     "sex": Number,
-    "isMarried": Number,
     "state": Number,
     "interest": Number,
     "birthday": String,
     "address": String,
-});
+}, { versionKey: false });
 
+// versionKey __v 版本的意思
 module.exports = mongoose.model('User', userSchema);
