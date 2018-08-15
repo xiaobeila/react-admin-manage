@@ -54,6 +54,9 @@ export default {
      * @param {*选中行对象} selectedItem
      */
     updateSelectedItem (selectedRowKeys, selectedRows, selectedIds) {
+        console.log(selectedRowKeys)
+        console.log(selectedRows)
+        console.log(selectedIds)
         if (selectedIds) {
             this.setState({
                 selectedRowKeys,

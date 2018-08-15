@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Card, Button, Table, Divider, Modal } from 'antd'
+import { Card, Button, Table, Divider, Modal, message } from 'antd'
 
-import { index, store } from '../../axios/user'
+import { index, usersStore, usersDelete } from '../../axios/user'
 import Utils from '../../utils/utils'
 import UserForm from './components/UserForm';
 import './User.less';
@@ -40,12 +40,39 @@ export default class User extends Component {
     })
   }
 
+  onRowClick = (record, index) => {
+    this.setState({
+      'userInfo': record
+    })
+  }
+
   handleOperator = (type) => {
     if (type === 'create') {
       this.setState({
         title: '创建员工',
         isVisible: true,
         type
+      })
+    } else if (type === 'edit') {
+      this.setState({
+        title: '编辑员工',
+        isVisible: true,
+        type
+      })
+    } else if (type === 'delete') {
+      Modal.confirm({
+        title: '提示',
+        content: '确定要删除此用户吗？',
+        cancelText: '取消',
+        okText: '确定',
+        onOk: () => {
+          usersDelete(this.state.userInfo).then((res) => {
+            message.success('删除成功');
+            this.requestList()
+          }).catch((error) => {
+            console.log(error)
+          })
+        }
       })
     }
   }
@@ -61,7 +88,7 @@ export default class User extends Component {
           }
         }
 
-        store(params).then((res) => {
+        usersStore(params).then((res) => {
           if (res.status === '200') {
             this.setState({
               isVisible: false
@@ -71,7 +98,6 @@ export default class User extends Component {
         }).catch((error) => {
           console.log(error)
         });
-        console.log('Received values of form: ', values);
       }
     });
   }
@@ -137,7 +163,7 @@ export default class User extends Component {
         title: '联系电话',
         dataIndex: 'phone',
         render (key, value) {
-          return value.id
+          return value.phone
         }
       },
       {
@@ -147,7 +173,7 @@ export default class User extends Component {
           <span>
             <Button onClick={() => this.handleOperator('edit')}>编辑</Button>
             <Divider type="vertical" />
-            <Button>删除</Button>
+            <Button onClick={() => this.handleOperator('delete')}>删除</Button>
           </span>
         )
       }
@@ -163,6 +189,11 @@ export default class User extends Component {
             <Table
               bordered
               columns={columns}
+              onRow={(record, index) => ({
+                onClick: () => {
+                  this.onRowClick(record, index)
+                }
+              })}
               dataSource={this.state.list}
               pagination={this.state.pagination}
             />

@@ -22,6 +22,19 @@ class UserForms extends Component {
     }[state]
   }
 
+  getInterest = (interest) => {
+    return {
+      '1': '游泳',
+      '2': '打篮球',
+      '3': '踢足球',
+      '4': '跑步',
+      '5': '爬山',
+      '6': '骑行',
+      '7': '桌球',
+      '8': '麦霸'
+    }[interest]
+  }
+
   render () {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -32,6 +45,16 @@ class UserForms extends Component {
     const type = this.props.type;
     return (
       <Form layout="horizontal">
+        <FormItem {...formItemLayout}>
+          {
+            userInfo && type === 'detail' ? userInfo._id :
+              getFieldDecorator('_id', {
+                initialValue: userInfo._id
+              })(
+                <Input type="hidden" />
+              )
+          }
+        </FormItem>
         <FormItem label="用户名" {...formItemLayout}>
           {
             userInfo && type === 'detail' ? userInfo.username :
@@ -78,6 +101,28 @@ class UserForms extends Component {
                   <Option value={3}>北大才子一枚</Option>
                   <Option value={4}>百度FE</Option>
                   <Option value={5}>创业者</Option>
+                </Select>
+              )}
+        </FormItem>
+        <FormItem label="爱好" {...formItemLayout}>
+          {
+            userInfo && type === 'detail' ? this.getInterest(userInfo.interest) :
+              getFieldDecorator('interest', {
+                rules: [{
+                  required: true,
+                  message: 'Please select your interest',
+                }],
+                initialValue: userInfo.interest
+              })(
+                <Select>
+                  <Option value={1}>游泳</Option>
+                  <Option value={2}>打篮球</Option>
+                  <Option value={3}>踢足球</Option>
+                  <Option value={4}>跑步</Option>
+                  <Option value={5}>爬山</Option>
+                  <Option value={6}>骑行</Option>
+                  <Option value={7}>桌球</Option>
+                  <Option value={8}>麦霸</Option>
                 </Select>
               )}
         </FormItem>

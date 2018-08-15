@@ -41,7 +41,7 @@ service.interceptors.response.use(
   response => {
     // token
     if (response.status !== 200) {
-      Modal.info({
+      Modal.error({
         title: "提示",
         content: response.message
       })
@@ -50,7 +50,7 @@ service.interceptors.response.use(
     loading = document.getElementById('ajaxLoading');
     loading.style.display = 'none';
     if (res.status === error.ERROR_TOKEN_EXPIRE || res.status === error.ERROR_TOKEN_ILLEGAL) {
-      Modal.info({
+      Modal.error({
         title: "提示",
         content: '你已被登出，可以取消继续留在该页面，或者重新登录'
       }).then(() => {
@@ -62,7 +62,7 @@ service.interceptors.response.use(
     return Promise.resolve(res)
   }, error => {
     console.log('err' + error)// for debug
-    Modal.info({
+    Modal.error({
       title: "提示",
       content: error.message
     })

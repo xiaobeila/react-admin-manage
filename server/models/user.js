@@ -10,7 +10,10 @@ var userSchema = new mongoose.Schema({
     "interest": Number,
     "birthday": String,
     "address": String,
-}, { versionKey: false });
+    "created_at": String,
+    "updated_at": String,
+    "deleted_at": String,
+}, { versionKey: false, timestamps: { createdAt: 'created', updatedAt: 'updated' } });
 
 // versionKey __v 版本的意思
 module.exports = mongoose.model('User', userSchema);
