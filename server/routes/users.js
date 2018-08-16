@@ -94,7 +94,7 @@ router.post('/edit', function (req, res, next) {
 */
 router.post('/delete', function (req, res, next) {
   let userId = req.body._id;
-  User.remove({
+  User.findByIdAndRemove({
     "_id": userId
   }, function (err, doc) {
     if (err) {
